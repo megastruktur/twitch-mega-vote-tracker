@@ -1,19 +1,12 @@
 <script lang="ts">
 	import type { GamesResponse } from "$lib/pocketbase-types";
 	import type { SteamGameData } from "$lib/types";
-	import { popup, ProgressRadial, type PopupSettings } from "@skeletonlabs/skeleton";
-	import GameCard from "./GameCard.svelte";
+	import { AccordionItem, ProgressRadial } from "@skeletonlabs/skeleton";
   import { PUBLIC_CORS_PROXY_URL } from "$env/static/public"
+	import GameCardAccordion from "./GameCardAccordion.svelte";
 
   export let game: GamesResponse
   let steamGameData: SteamGameData
-
-  const popupHover: PopupSettings = {
-    event: 'hover',
-    target: `popupHover-${game.id}`,
-    placement: 'top'
-  }
-
 	async function getSteamGameData(steamAppId: number) {
 
     const language = "russian"
@@ -62,20 +55,17 @@
 
 </script>
 
-<div
-  class="w-full [&>*]:pointer-events-none text-3xl cursor-pointer"
-  use:popup={popupHover}
-  >
-  {game.name}
-</div>
-
-<div data-popup="popupHover-{game.id}">
-<!-- <div class=""> -->
-  {#await gameHover()}
-    <ProgressRadial />
-  {:then}
-    {#if steamGameData !== undefined}
-      <GameCard {steamGameData} />
-    {/if}
-  {/await}
-</div>
+<AccordionItem id={game.id}>
+  <svelte:fragment slot="summary">
+    <div>{game.name}</div>
+  </svelte:fragment>
+  <svelte:fragment slot="content">
+    {#await gameHover()}
+      <ProgressRadial />
+    {:then}
+      {#if steamGameData !== undefined}
+        <GameCardAccordion {steamGameData} />
+      {/if}
+    {/await}
+  </svelte:fragment>
+</AccordionItem>

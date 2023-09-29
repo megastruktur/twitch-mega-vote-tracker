@@ -1,5 +1,4 @@
 <script lang="ts">
-	import GameItem from "$lib/components/GameItem.svelte";
 	import { getAllGames } from "$lib/models/games";
 	import { pb } from "$lib/pocketbase"
 	import type { GamesResponse } from "$lib/pocketbase-types";
@@ -7,6 +6,8 @@
 	import { onDestroy, onMount } from "svelte";
 	import { flip } from "svelte/animate";
 	import { quintOut } from "svelte/easing";
+	import { Accordion } from '@skeletonlabs/skeleton';
+	import GameItemAccordion from "$lib/components/GameItemAccordion.svelte";
 
 	let games: GamesResponse[]
 
@@ -30,15 +31,17 @@
 {#await loadGames()}
 	<ProgressRadial />
 {:then}
-<div class="absolute right-0 top-0">
-		<ul class="bg-surface-900/80 list flex flex-col items-end w-72">
+<div class="absolute right-0 top-0 bg-surface-900/80 w-72">
+		<Accordion
+			padding="px-0"
+			rounded="rounded-none"
+			regionControl="px-2 py-2"
+			hover=""
+			transitions={true}
+			>
 			{#each games as game(game.id)}
-				<li
-					animate:flip={{ delay: 250, duration: 250, easing: quintOut }}
-					>
-					<GameItem {game} />
-				</li>
+					<GameItemAccordion {game} />
 			{/each}
-		</ul>
+		</Accordion>
 </div>
 {/await}
