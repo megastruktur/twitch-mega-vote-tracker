@@ -28,6 +28,7 @@ PUBLIC_CORS_PROXY_URL=
 - To build a Hosted ZIP for twitch the Sveltekit static adapter is used. However, the adapter still creates some inline scripts to handle the page logic. So I wrote a script `inlineToFile.cjs` that can strip the inline scripts out of the generated *.html files and put them right into their own *.js files. The script is run automatically on `npm run build`.
 - To create a Twitch extension *.zip the command `npm run zip` is used.
 - Do not forget to setup `Twitch Extension -> Capabilities -> Extension Configuration Service -> Allowlist for Image Domains | Allowlist for Media Domains | Allowlist for URL Fetching Domains`
+- The Fullscreen Viewer Path is `video/fullscreen.html` after the build and Hosting is done. For the local development it is `video/fullscreen`. 
 
 ### HTTPS
 All the connections should be done via HTTPS protocol. Otherwise they are dropped by Twitch. So both Pocketbase and CORS-container mush be served over https.
