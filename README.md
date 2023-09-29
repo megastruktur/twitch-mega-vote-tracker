@@ -21,6 +21,7 @@ Backend Admin is a Pocketbase Frontend.
 
 ### .env.local
 PUBLIC_POCKETBASE_URL=
+
 PUBLIC_CORS_PROXY_URL=
 
 ### Twitch deployment
