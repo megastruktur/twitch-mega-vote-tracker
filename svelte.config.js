@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
+import { PUBLIC_POCKETBASE_URL, PUBLIC_CORS_PROXY_URL }
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -24,13 +25,13 @@ const config = {
 				],
 				"connect-src": [
 					"self",
-					"https://pocketvote.megastruktur.synology.me",
-					"https://cors.megastruktur.synology.me",
+					PUBLIC_POCKETBASE_URL,
+					PUBLIC_CORS_PROXY_URL,
 					"https://cdn.akamai.steamstatic.com",
 				],
 				"img-src": [
 					"self",
-					"https://pocketvote.megastruktur.synology.me",
+					PUBLIC_POCKETBASE_URL,
 					"https://cdn.akamai.steamstatic.com"
 				]
 			},
