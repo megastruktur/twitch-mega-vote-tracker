@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { SteamGameData } from "$lib/types";
+	import type { GamesResponse, SteamGameDataResponse } from "$lib/pocketbase-types";
 
-
-  export let steamGameData: SteamGameData
+  export let game: GamesResponse
+  export let steamGameData: SteamGameDataResponse
 
 </script>
 
@@ -11,7 +11,7 @@
     src="{steamGameData.header_image}" alt="{steamGameData.name}" />
 
   <div class="mx-3">
-    <h3 class="h3">{steamGameData.name}</h3>
+    <h3 class="h3">{game.name}</h3>
     <article><p>{steamGameData.short_description}</p></article>
   
     <hr class="opacity-50 mt-1" />

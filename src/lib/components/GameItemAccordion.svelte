@@ -1,38 +1,22 @@
 <script lang="ts">
-	import type { GamesResponse } from "$lib/pocketbase-types";
+	import type { GamesResponse, SteamGameDataResponse } from "$lib/pocketbase-types";
 	import type { SteamGameData } from "$lib/types";
 	import { AccordionItem, ProgressRadial } from "@skeletonlabs/skeleton";
   import { PUBLIC_CORS_PROXY_URL } from "$env/static/public"
 	import GameCardAccordion from "./GameCardAccordion.svelte";
+	import { pb } from "$lib/pocketbase";
 
   export let game: GamesResponse
-  let steamGameData: SteamGameData
-	async function getSteamGameData(steamAppId: number) {
+  let steamGameData: SteamGameDataResponse | null = null
 
-    const language = "russian"
+	async function getSteamGameData(): Promise<SteamGameDataResponse | null> {
 
-    const steamUrl = `${PUBLIC_CORS_PROXY_URL}/https://store.steampowered.com/api/appdetails?appids=${steamAppId}&l=${language}`
-    // Fetch the data from url
     try {
-      const response = await fetch(steamUrl);
-      const steamGameDataResponse = await response.json()
-
-      if (steamGameDataResponse[steamAppId] !== undefined) {
-        const steamGameData = steamGameDataResponse[steamAppId].data
-        if (steamGameData) {
-          return steamGameData
-        }
-        else {
-          throw new Error(`Failed to get steam game data for ${steamAppId}`)
-        }
-      }
-      else {
-        throw new Error(`Failed to get steam game data for ${steamAppId}`)
-      }
-
-    } catch (error) {
-      console.error(error);
-      throw new Error(`Failed to get steam game data for ${steamAppId}`)
+      return pb.collection("steam_game_data").getFirstListItem(`game="${game.id}"`)
+    }
+    catch (e) {
+      console.log(e)
+      return null
     }
 	}
 
@@ -47,9 +31,9 @@
 		}
 	}
 
-  async function gameHover() {
-    if (steamGameData === undefined) {
-      steamGameData = await getSteamGameData(getGameAppId(game))
+  async function loadData() {
+    if (steamGameData === null) {
+      steamGameData = await getSteamGameData()
     }
   }
 
@@ -60,11 +44,11 @@
     <div>{game.name}</div>
   </svelte:fragment>
   <svelte:fragment slot="content">
-    {#await gameHover()}
+    {#await loadData()}
       <ProgressRadial />
     {:then}
-      {#if steamGameData !== undefined}
-        <GameCardAccordion {steamGameData} />
+      {#if steamGameData !== null}
+        <GameCardAccordion {game} {steamGameData} />
       {/if}
     {/await}
   </svelte:fragment>

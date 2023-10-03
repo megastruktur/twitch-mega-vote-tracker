@@ -1,12 +1,11 @@
 export type SteamGameData = {
   name: string
-  is_free: boolean
   detailed_description: string
   short_description: string
   header_image: string
   categories: Category[]
   genres: Genre[]
-  metacritic?: Metacritic
+  screenshots: Screenshot[]
 }
 
 export type Genre = {
@@ -22,4 +21,10 @@ export type Category = {
 export type Metacritic = {
   score: number
   url: string
+}
+
+export type Screenshot = {
+  id: number,
+  path_thumbnail: string,
+  path_full: string
 }

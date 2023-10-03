@@ -1,20 +1,39 @@
 <script lang="ts">
-	import GameItem from "$lib/components/GameItem.svelte";
 	import { getAllGames } from "$lib/models/games";
 	import { pb } from "$lib/pocketbase"
 	import type { GamesResponse } from "$lib/pocketbase-types";
-	import { ProgressRadial } from "@skeletonlabs/skeleton";
 	import { onDestroy, onMount } from "svelte";
-	import { flip } from "svelte/animate";
-	import { quintOut } from "svelte/easing";
+	import GameCard from "$lib/components/GameCard.svelte";
+	import { Splide, SplideSlide, type Options } from "@splidejs/svelte-splide";
+	import '@splidejs/svelte-splide/css/skyblue';
+	import type { MoveEventDetail } from "@splidejs/svelte-splide/types";
 
 	let games: GamesResponse[]
+	let currentSlide = 0
+
+	const splideConfig: Options  = {
+		type: "loop",
+		perPage: 4,
+		perMove: 1,
+		start: 0,
+		focus: "center",
+		pagination: false,
+	}
 
 	async function loadGames() {
 		games = await getAllGames()
 	}
 
+	function moved(e: CustomEvent<MoveEventDetail> | undefined) {
+		
+		if (e !== undefined) {
+			currentSlide = e.detail.index
+		}
+		
+	}
+
 	onMount(async () => {
+		loadGames()
 		// Listen to Game changes and update the list accordingly.
 		pb.collection("games").subscribe("*", async (e) => {
 			games = await getAllGames()
@@ -27,18 +46,16 @@
 
 </script>
 
-{#await loadGames()}
-	<ProgressRadial />
-{:then}
-<div class="absolute right-0 top-0">
-		<ul class="bg-surface-900/80 list flex flex-col items-end w-72">
-			{#each games as game(game.id)}
-				<li
-					animate:flip={{ delay: 250, duration: 250, easing: quintOut }}
-					>
-					<GameItem {game} />
-				</li>
-			{/each}
-		</ul>
+{#if games !== undefined }
+<div class="absolute bottom-0 bg-surface-900/80 w-screen">
+
+	<Splide on:moved={moved} options={ splideConfig } aria-label="Games">
+		{#each games as game(game.id)}
+		<SplideSlide>
+			<GameCard {game} />
+		</SplideSlide>
+		{/each}
+	</Splide>
+
 </div>
-{/await}
+{/if}
