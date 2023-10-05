@@ -6,10 +6,8 @@
 	import GameCard from "$lib/components/GameCard.svelte";
 	import { Splide, SplideSlide, type Options } from "@splidejs/svelte-splide";
 	import '@splidejs/svelte-splide/css/skyblue';
-	import type { MoveEventDetail, SlideEventDetail } from "@splidejs/svelte-splide/types";
-	import { getModalStore, Modal, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
-	import GameInfoModal from "$lib/components/GameInfoModal.svelte";
-	import { flip } from "svelte/animate";
+	import type { SlideEventDetail } from "@splidejs/svelte-splide/types";
+	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 			
 	const modalStore = getModalStore();
 

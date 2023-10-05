@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { GamesResponse, SteamGameDataResponse } from "$lib/pocketbase-types";
-	import { onMount } from "svelte";
   export let game: GamesResponse
 
   let steamGameData: SteamGameDataResponse = game.expand["steam_game_data(game)"][0]
