@@ -12,17 +12,11 @@ Backend Admin is a Pocketbase Frontend.
 - Sveltekit (https://kit.svelte.dev)
 - Pocketbase (https://pocketbase.io)
 - Skeleton (https://www.skeleton.dev)
-- CORS-container (https://github.com/imjacobclark/cors-container)
 
 ## Notes
 
-### Steam Web API Cors
-- Steam Web API won't allow you to access it from your client, so I've deployed a CORS proxy using Cors-container docker image (taken from github, `that's important` as the package on dockerhub is outdated and won't allow Access-Control-Allow-Origin setting)
-
 ### .env.local / .env
 PUBLIC_POCKETBASE_URL=
-
-PUBLIC_CORS_PROXY_URL=
 
 ### Twitch deployment
 - To build a Hosted ZIP for twitch the Sveltekit static adapter is used. However, the adapter still creates some inline scripts to handle the page logic. So I wrote a script `inlineToFile.cjs` that can strip the inline scripts out of the generated *.html files and put them right into their own *.js files. The script is run automatically on `npm run build`.

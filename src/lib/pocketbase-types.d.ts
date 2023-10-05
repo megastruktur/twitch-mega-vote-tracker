@@ -50,6 +50,9 @@ export type SteamGameDataRecord = {
 	genres?: Genres[]
 	header_image?: string
 	short_description?: string
+	developers?: string[]
+	publishers?: string[]
+  screenshots: Screenshot[]
 }
 
 export type UsersRecord = {

@@ -6,30 +6,53 @@
 	import GameCard from "$lib/components/GameCard.svelte";
 	import { Splide, SplideSlide, type Options } from "@splidejs/svelte-splide";
 	import '@splidejs/svelte-splide/css/skyblue';
-	import type { MoveEventDetail } from "@splidejs/svelte-splide/types";
+	import type { MoveEventDetail, SlideEventDetail } from "@splidejs/svelte-splide/types";
+	import { getModalStore, Modal, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import GameInfoModal from "$lib/components/GameInfoModal.svelte";
+	import { flip } from "svelte/animate";
+			
+	const modalStore = getModalStore();
 
 	let games: GamesResponse[]
-	let currentSlide = 0
 
 	const splideConfig: Options  = {
 		type: "loop",
-		perPage: 4,
+		perPage: 5,
 		perMove: 1,
-		start: 0,
 		focus: "center",
 		pagination: false,
 	}
 
-	async function loadGames() {
-		games = await getAllGames()
+	function openGameInfoModal(game: GamesResponse) {
+		const modal: ModalSettings = {
+			type: 'component',
+			// Pass the component registry key as a string:
+			component: 'GameInfoModal',
+			meta: {
+				game: game,
+			}
+		}
+		modalStore.trigger(modal);
 	}
 
-	function moved(e: CustomEvent<MoveEventDetail> | undefined) {
-		
+	// Slides are pre-rendered as invisible elements so there is no way to
+	//	attach Click events. Using the visible event to add click handler
+	function slideVisible(e: CustomEvent<SlideEventDetail> | undefined) {
+
 		if (e !== undefined) {
-			currentSlide = e.detail.index
+			// Get the Game by slide index
+			let index = (e.detail.Slide.index >= 0) ? e.detail.Slide.index : games.length + e.detail.Slide.index;
+			let game: GamesResponse = games[index];
+			
+			e.detail.Slide.slide.addEventListener("click", (e) => {
+				e.preventDefault()
+				openGameInfoModal(game)
+			});
 		}
-		
+	}
+
+	async function loadGames() {
+		games = await getAllGames()
 	}
 
 	onMount(async () => {
@@ -49,7 +72,7 @@
 {#if games !== undefined }
 <div class="absolute bottom-0 bg-surface-900/80 w-screen">
 
-	<Splide on:moved={moved} options={ splideConfig } aria-label="Games">
+	<Splide options={ splideConfig } aria-label="Games" on:visible={slideVisible}>
 		{#each games as game(game.id)}
 		<SplideSlide>
 			<GameCard {game} />

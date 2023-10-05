@@ -27,7 +27,6 @@ const config = {
 					"self",
 					"http://localhost:8090",
 					process.env.PUBLIC_POCKETBASE_URL,
-					process.env.PUBLIC_CORS_PROXY_URL,
 					"https://cdn.akamai.steamstatic.com",
 				],
 				"img-src": [
