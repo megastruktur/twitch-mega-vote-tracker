@@ -16,10 +16,9 @@
 		gap: 3,
 	}
 
-  function sliderModeHandler(e: CustomEvent<MoveEventDetail> | undefined) {
+  function sliderModedHandler(e: CustomEvent<MoveEventDetail> | undefined) {
     if (e !== undefined) {
-      let index = (e.detail.dest >= 0) ? e.detail.dest : screenshots.length + e.detail.dest;
-      activeScreenshot = screenshots[index]
+      activeScreenshot = screenshots[e.detail.index]
     }
   }
 
@@ -27,10 +26,10 @@
 <div>
 	{#if screenshots !== undefined && screenshots.length > 0}
 		<img class="mb-2" src={activeScreenshot.path_full} alt={activeScreenshot.id.toString()} />
-		<Splide options={ splideConfig } aria-label="Games" on:move={sliderModeHandler}>
+		<Splide options={ splideConfig } aria-label="Games" on:moved={sliderModedHandler}>
 			{#each screenshots as screenshot(screenshot.id)}
 			<SplideSlide>
-				<img src={screenshot.path_thumbnail} alt={screenshot.id.toString()} />
+				<img data-screenshot-id={screenshot.id} src={screenshot.path_thumbnail} alt={screenshot.id.toString()} />
 			</SplideSlide>
 			{/each}
 		</Splide>

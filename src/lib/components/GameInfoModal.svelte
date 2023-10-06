@@ -37,7 +37,7 @@
       <div class="flex flex-wrap w-1/12"></div>
       <div class="flex flex-wrap w-7/12">
         {#each steamGameData.developers as dev}
-        <a class="mr-2 text-secondary-500 hover:text-tertiary-900" href="{steamUrlBase}?developer={dev}">{dev}</a>
+        <a target="_blank" class="mr-2 text-secondary-500 hover:text-tertiary-900" href="{steamUrlBase}?developer={dev}">{dev}</a>
         {/each}
       </div>
     </div>
@@ -48,7 +48,7 @@
       <div class="flex flex-wrap w-1/12"></div>
       <div class="flex flex-wrap w-7/12">
         {#each steamGameData.publishers as pub}
-          <a class="mr-2 text-secondary-500 hover:text-tertiary-900" href="{steamUrlBase}?publisher={pub}">{pub}</a>
+          <a target="_blank" class="mr-2 text-secondary-500 hover:text-tertiary-900" href="{steamUrlBase}?publisher={pub}">{pub}</a>
         {/each}
       </div>
     </div>
