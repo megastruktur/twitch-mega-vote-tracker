@@ -8,14 +8,20 @@
 
 
 {#if steamGameData !== undefined}
-  <button class="relative game-card-button" data-game-id={game.id}>
-    <div class="pl-3 absolute bottom-0 bg-slate-700/70 w-full">Сумма: {game.votesTotal}</div>
-    <img
-      class="hover:brightness-125"
-      src={steamGameData.header_image}
-      alt={game.name}
-      title={game.name}
-      loading="lazy"
-    />
+  <button class="relative game-card-button w-full h-full" data-game-id={game.id}>
+    {#if game.votesTotal !== 0}
+      <div class="pl-3 absolute bottom-0 bg-slate-700/70 w-full">Сумма: {game.votesTotal}</div>
+    {/if}
+    {#if steamGameData.header_image}
+      <img
+        class="hover:brightness-125"
+        src={steamGameData.header_image}
+        alt={game.name}
+        title={game.name}
+        loading="lazy"
+      />
+    {:else}
+      <div class="h3 text-center">{game.name}</div>
+    {/if}
   </button>
 {/if}

@@ -25,12 +25,14 @@
 
 </script>
 <div>
-  <img class="mb-2" src={activeScreenshot.path_full} alt={activeScreenshot.id.toString()} />
-  <Splide options={ splideConfig } aria-label="Games" on:move={sliderModeHandler}>
-		{#each screenshots as screenshot(screenshot.id)}
-		<SplideSlide>
-      <img src={screenshot.path_thumbnail} alt={screenshot.id.toString()} />
-		</SplideSlide>
-		{/each}
-	</Splide>
+	{#if screenshots !== undefined && screenshots.length > 0}
+		<img class="mb-2" src={activeScreenshot.path_full} alt={activeScreenshot.id.toString()} />
+		<Splide options={ splideConfig } aria-label="Games" on:move={sliderModeHandler}>
+			{#each screenshots as screenshot(screenshot.id)}
+			<SplideSlide>
+				<img src={screenshot.path_thumbnail} alt={screenshot.id.toString()} />
+			</SplideSlide>
+			{/each}
+		</Splide>
+	{/if}
 </div>
