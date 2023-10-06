@@ -8,7 +8,7 @@
 
 
 {#if steamGameData !== undefined}
-  <a href="?#" class="relative" on:click>
+  <button class="relative" on:click>
     <div class="pl-3 absolute bottom-0 bg-slate-700/70 w-full">Сумма: {game.votesTotal}</div>
     <img
       class="hover:brightness-125"
@@ -17,5 +17,5 @@
       title={game.name}
       loading="lazy"
     />
-  </a>
+  </button>
 {/if}

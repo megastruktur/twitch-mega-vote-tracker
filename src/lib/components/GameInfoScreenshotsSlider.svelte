@@ -13,6 +13,7 @@
 		perMove: 1,
 		focus: "center",
 		pagination: false,
+		gap: 3,
 	}
 
   function sliderModeHandler(e: CustomEvent<MoveEventDetail> | undefined) {
@@ -24,7 +25,7 @@
 
 </script>
 <div>
-  <img src={activeScreenshot.path_full} alt={activeScreenshot.id.toString()} />
+  <img class="mb-2" src={activeScreenshot.path_full} alt={activeScreenshot.id.toString()} />
   <Splide options={ splideConfig } aria-label="Games" on:move={sliderModeHandler}>
 		{#each screenshots as screenshot(screenshot.id)}
 		<SplideSlide>
