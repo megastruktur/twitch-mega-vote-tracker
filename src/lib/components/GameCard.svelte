@@ -8,7 +8,7 @@
 
 
 {#if steamGameData !== undefined}
-  <button class="relative" on:click>
+  <button class="relative game-card-button" data-game-id={game.id}>
     <div class="pl-3 absolute bottom-0 bg-slate-700/70 w-full">Сумма: {game.votesTotal}</div>
     <img
       class="hover:brightness-125"

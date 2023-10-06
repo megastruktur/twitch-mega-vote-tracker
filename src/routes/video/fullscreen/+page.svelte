@@ -33,24 +33,23 @@
 		modalStore.trigger(modal);
 	}
 
-	// Slides are pre-rendered as invisible elements so there is no way to
-	//	attach Click events. Using the visible event to add click handler
-	function slideVisible(e: CustomEvent<SlideEventDetail> | undefined) {
-
-		if (e !== undefined) {
-			// Get the Game by slide index
-			let index = (e.detail.Slide.index >= 0) ? e.detail.Slide.index : games.length + e.detail.Slide.index;
-			let game: GamesResponse = games[index];
-			
-			e.detail.Slide.slide.addEventListener("click", (e) => {
-				e.preventDefault()
-				openGameInfoModal(game)
-			});
-		}
-	}
-
 	async function loadGames() {
 		games = await getAllGames()
+	}
+
+	function splideClickedHandler(e: CustomEvent<SlideEventDetail> | undefined) {
+		if (e !== undefined && e.detail.Slide !== undefined) {
+
+			const gameId: string | null = e.detail.Slide.slide.children[0].getAttribute("data-game-id")
+
+			if (gameId !== undefined && gameId !== null && gameId !== "") {
+				let game: GamesResponse | undefined = games.find((game) => game.id === gameId);
+
+				if (game !== undefined) {
+					openGameInfoModal(game)
+				}
+			}
+		}
 	}
 
 	onMount(async () => {
@@ -68,9 +67,9 @@
 </script>
 
 {#if games !== undefined }
-<div class="absolute bottom-0 bg-surface-900/80 w-screen">
+<div class="absolute bottom-0 bg-surface-900/80 w-screen"  >
 
-	<Splide options={ splideConfig } aria-label="Games" on:visible={slideVisible}>
+	<Splide options={ splideConfig } aria-label="Games" on:click={splideClickedHandler}>
 		{#each games as game(game.id)}
 		<SplideSlide>
 			<GameCard {game} />
