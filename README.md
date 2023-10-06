@@ -1,5 +1,7 @@
 # Mega Vote Tracker Twitch extension
 
+<img src="screenshots/vote-tracker-tw-extension.gif">
+
 ## Description
 A Twitch extension that adds a Video Overlay to a twitch stream with the order-by-votes list of games with their Steam cards.
 The Game list sits in Pocketbase backend and is fetched by the extension.
