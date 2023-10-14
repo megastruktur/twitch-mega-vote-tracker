@@ -35,7 +35,8 @@ const config = {
 				"img-src": [
 					"self",
 					process.env.PUBLIC_POCKETBASE_URL,
-					"https://cdn.akamai.steamstatic.com"
+					"https://cdn.akamai.steamstatic.com",
+					"https://windows-cdn.softpedia.com",
 				]
 			},
     },

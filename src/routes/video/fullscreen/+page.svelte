@@ -7,9 +7,10 @@
 	import { Splide, SplideSlide, type Options } from "@splidejs/svelte-splide";
 	import '@splidejs/svelte-splide/css/skyblue';
 	import type { SlideEventDetail } from "@splidejs/svelte-splide/types";
-	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore, getModalStore, type DrawerSettings, type ModalSettings } from '@skeletonlabs/skeleton';import FaAngleUp from 'svelte-icons/fa/FaAngleUp.svelte'
 			
 	const modalStore = getModalStore();
+	const drawerStore = getDrawerStore();
 
 	let games: GamesResponse[]
 
@@ -52,6 +53,15 @@
 		}
 	}
 
+	function openVotedGamesDrawer() {
+		const settings: DrawerSettings = {
+			id: 'voted-games-drawer',
+			height: "h-auto",
+			position: "bottom"
+		};
+		drawerStore.open(settings);
+	}
+
 	onMount(async () => {
 		loadGames()
 		// Listen to Game changes and update the list accordingly.
@@ -66,16 +76,32 @@
 
 </script>
 
-{#if games !== undefined }
-<div class="absolute bottom-0 bg-surface-900/80 w-screen"  >
 
-	<Splide options={ splideConfig } aria-label="Games" on:click={splideClickedHandler}>
-		{#each games as game(game.id)}
-		<SplideSlide>
-			<GameCard {game} />
-		</SplideSlide>
-		{/each}
-	</Splide>
-
+<div class="flex w-screen justify-center absolute bottom-10">
+	<button
+		class="flex bg-surface-900/50 rounded-full p-2 border border-1 border-surface-200 opacity-30 hover:opacity-80"
+		on:click={openVotedGamesDrawer}>
+		<div class="w-5 h-5"><FaAngleUp /></div>
+	</button>
 </div>
-{/if}
+
+
+<Drawer>
+
+	{#if $drawerStore.id === 'voted-games-drawer'}
+		{#if games !== undefined }
+			<div class="absolute bottom-0 bg-surface-900/80 w-screen"  >
+			
+				<Splide options={ splideConfig } aria-label="Games" on:click={splideClickedHandler}>
+					{#each games as game(game.id)}
+					<SplideSlide>
+						<GameCard {game} />
+					</SplideSlide>
+					{/each}
+				</Splide>
+			
+			</div>
+		{/if}
+	{/if}
+	
+</Drawer>
