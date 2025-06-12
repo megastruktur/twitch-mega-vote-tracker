@@ -2,6 +2,9 @@
 	import type { Screenshot } from "$lib/types";
 	import { Splide, type Options, SplideSlide } from "@splidejs/svelte-splide";
 	import type { MoveEventDetail } from "@splidejs/svelte-splide/types";
+  import { PUBLIC_IMAGE_PROXY_URL } from "$env/static/public";
+
+  const imageProxyUrl = PUBLIC_IMAGE_PROXY_URL || "https://megavote-image-proxy.megastruktur.synology.me";
 
   export let screenshots: Screenshot[]
 
@@ -25,11 +28,11 @@
 </script>
 <div>
 	{#if screenshots !== undefined && screenshots.length > 0}
-		<img class="mb-2" src={activeScreenshot.path_full} alt={activeScreenshot.id.toString()} />
+		<img class="mb-2" src="{imageProxyUrl}/proxy?url={activeScreenshot.path_full}" alt={activeScreenshot.id.toString()} />
 		<Splide options={ splideConfig } aria-label="Games" on:moved={sliderModedHandler}>
 			{#each screenshots as screenshot(screenshot.id)}
 			<SplideSlide>
-				<img data-screenshot-id={screenshot.id} src={screenshot.path_thumbnail} alt={screenshot.id.toString()} />
+				<img data-screenshot-id={screenshot.id} src="{imageProxyUrl}/proxy?url={screenshot.path_thumbnail}" alt={screenshot.id.toString()} />
 			</SplideSlide>
 			{/each}
 		</Splide>

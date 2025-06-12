@@ -30,12 +30,12 @@ const config = {
 					"self",
 					"http://localhost:8090",
 					process.env.PUBLIC_POCKETBASE_URL,
-					"https://cdn.akamai.steamstatic.com",
+					process.env.PUBLIC_IMAGE_PROXY_URL,
 				],
 				"img-src": [
 					"self",
 					process.env.PUBLIC_POCKETBASE_URL,
-					"https://cdn.akamai.steamstatic.com",
+					process.env.PUBLIC_IMAGE_PROXY_URL,
 					"https://windows-cdn.softpedia.com",
 				]
 			},

@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { GamesResponse, SteamGameDataResponse } from "$lib/pocketbase-types";
+  import { PUBLIC_IMAGE_PROXY_URL } from "$env/static/public";
 
   export let game: GamesResponse & {weight?: number}
 
   let steamGameData: SteamGameDataResponse = game.expand["steam_game_data(game)"][0]
+
+  const imageProxyUrl = PUBLIC_IMAGE_PROXY_URL || "https://megavote-image-proxy.megastruktur.synology.me";
 
 </script>
 
@@ -21,7 +24,7 @@
     {#if steamGameData.header_image}
       <img
         class="hover:brightness-125"
-        src={steamGameData.header_image}
+        src="{imageProxyUrl}/proxy?url={steamGameData.header_image}"
         alt={game.name}
         title={game.name}
         loading="lazy"

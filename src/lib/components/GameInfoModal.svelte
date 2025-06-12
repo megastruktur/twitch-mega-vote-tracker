@@ -2,6 +2,9 @@
 	import type { GamesResponse, SteamGameDataResponse } from "$lib/pocketbase-types";
 	import { getModalStore } from "@skeletonlabs/skeleton";
 	import GameInfoScreenshotsSlider from "./GameInfoScreenshotsSlider.svelte";
+  import { PUBLIC_IMAGE_PROXY_URL } from "$env/static/public";
+
+  const imageProxyUrl = PUBLIC_IMAGE_PROXY_URL || "https://megavote-image-proxy.megastruktur.synology.me";
 
   export let parent: any;
 
@@ -22,7 +25,7 @@
 
     <a target="_blank" href="{game.steamLink}">
       {#if steamGameData.header_image}
-        <img class="mb-3" src={steamGameData.header_image} alt={game.name} />
+        <img class="mb-3" src="{imageProxyUrl}/proxy?url={steamGameData.header_image}" alt={game.name} />
       {:else}
         <div class="h3 text-center">{game.name}</div>
       {/if}
